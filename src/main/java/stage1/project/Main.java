@@ -1,6 +1,7 @@
 package stage1.project;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 class WrongLengthException extends Exception {
 }
@@ -21,13 +22,22 @@ class Ship {
     }
 }
 
-class Coordinates {
-    String start;
-    String stop;
+class Coordinate {
+    int x;
+    int y;
 
-    Coordinates(String start, String stop) {
-        this.start = start;
-        this.stop = stop;
+    Coordinate(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class Position {
+    Coordinate start;
+    Coordinate stop;
+
+    Position(String start, String stop) throws WrongLocationException {
+        // ToDo: implement
     }
 }
 
@@ -67,12 +77,40 @@ class Game {
         System.out.println();
     }
 
-    Coordinates readCoordinates(int size) throws WrongLocationException {
-        return null;
+    Position readPosition() throws WrongLocationException {
+        Scanner scanner = new Scanner(System.in);
+        String start = scanner.next();
+        String stop = scanner.next();
+        return new Position(start, stop);
     }
 
-    void placeShip(String name, int size) throws WrongLocationException, TooCloseException, WrongLengthException {
-        Coordinates coordinates = readCoordinates(size);
+    private boolean isValidSize(Position position, int size) {
+        if (position.start.x == position.stop.x) {
+            return size == Math.abs(position.stop.y - position.start.y);
+        } else if (position.start.y == position.stop.y) {
+            return size == Math.abs(position.stop.x - position.start.x);
+        } else {
+            return false;
+        }
+    }
+
+    private boolean areCollisions(Position position, int size) {
+        // ToDo: implement
+        return false;
+    }
+
+    void placeShip(int size) throws WrongLocationException, TooCloseException, WrongLengthException {
+        Position position = readPosition();
+
+        if (!isValidSize(position, size)) {
+            throw new WrongLengthException();
+        }
+
+        if (!areCollisions(position, size)) {
+            throw new TooCloseException();
+        }
+
+        // ToDo: implement
     }
 
     void placeShips() {
@@ -82,7 +120,7 @@ class Game {
 
             while (true) {
                 try {
-                    placeShip(ship.name, ship.size);
+                    placeShip(ship.size);
                     break;
                 } catch (WrongLengthException e) {
                     System.out.printf("Error! Wrong length of the %s! Try again:", ship.name);
