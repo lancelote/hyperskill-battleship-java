@@ -116,14 +116,14 @@ class Game {
         assert Math.abs(start_x - stop_x) == size || Math.abs(start_y - stop_y) == size;
 
         if (start_x == stop_x) {
-            for (int i = start_y; i != stop_y; i += start_y < stop_y ? 1 : -1) {
-                if (areNeighbors(start_x, i)) {
+            for (int y = start_y; y != stop_y; y += start_y < stop_y ? 1 : -1) {
+                if (areNeighbors(start_x, y)) {
                     return false;
                 }
             }
         } else {
-            for (int i = start_x; i != stop_x; i += start_x < stop_x ? 1 : -1) {
-                if (areNeighbors(i, start_y)) {
+            for (int x = start_x; x != stop_x; x += start_x < stop_x ? 1 : -1) {
+                if (areNeighbors(x, start_y)) {
                     return false;
                 }
             }
@@ -133,6 +133,7 @@ class Game {
     }
 
     private boolean areNeighbors(int x, int y) {
+        // ToDo: implement
         return false;
     }
 
@@ -147,7 +148,23 @@ class Game {
             throw new TooCloseException();
         }
 
-        // ToDo: implement
+        int start_x = position.start.x;
+        int start_y = position.start.y;
+        int stop_x = position.stop.x;
+        int stop_y = position.stop.y;
+
+        assert start_x == stop_x || start_y == stop_y;
+        assert Math.abs(start_x - stop_x) == size || Math.abs(start_y - stop_y) == size;
+
+        if (start_x == stop_x) {
+            for (int y = start_y; y != stop_y; y += start_y < stop_y ? 1 : -1) {
+                board[y][start_x] = "O";
+            }
+        } else {
+            for (int x = start_x; x != stop_x; x += start_x < stop_x ? 1 : -1) {
+                board[start_y][x] = "O";
+            }
+        }
     }
 
     void placeShips() {
