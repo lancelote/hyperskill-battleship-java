@@ -213,6 +213,9 @@ class Game {
                     System.out.println("Error! You placed it too close to another one. Try again:");
                 }
             }
+
+            System.out.println();
+            printBoard();
         }
     }
 }
