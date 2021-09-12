@@ -37,7 +37,19 @@ class Position {
     Coordinate stop;
 
     Position(String start, String stop) throws WrongLocationException {
-        // ToDo: implement
+        this.start = parsePosition(start);
+        this.stop = parsePosition(stop);
+    }
+
+    private Coordinate parsePosition(String position) throws WrongLocationException {
+        int x = Character.getNumericValue(position.charAt(1));
+        int y = Character.getNumericValue(position.charAt(0)) - 65;
+
+        if (x < 0 || x > 9 || y < 0 || y > 9) {
+            throw new WrongLocationException();
+        }
+
+        return new Coordinate(x, y);
     }
 }
 
