@@ -126,13 +126,13 @@ class Game {
         assert Math.abs(start_x - stop_x) + 1 == size || Math.abs(start_y - stop_y) + 1 == size;
 
         if (start_x == stop_x) {
-            for (int y = start_y; y != stop_y; y += start_y < stop_y ? 1 : -1) {
+            for (int y = start_y; y != stop_y + 1; y += start_y < stop_y ? 1 : -1) {
                 if (areNeighbors(start_x, y)) {
                     return false;
                 }
             }
         } else {
-            for (int x = start_x; x != stop_x; x += start_x < stop_x ? 1 : -1) {
+            for (int x = start_x; x != stop_x + 1; x += start_x < stop_x ? 1 : -1) {
                 if (areNeighbors(x, start_y)) {
                     return false;
                 }
@@ -183,11 +183,11 @@ class Game {
         assert Math.abs(start_x - stop_x) + 1 == size || Math.abs(start_y - stop_y) + 1 == size;
 
         if (start_x == stop_x) {
-            for (int y = start_y; y != stop_y; y += start_y < stop_y ? 1 : -1) {
+            for (int y = start_y; y != stop_y + 1; y += start_y < stop_y ? 1 : -1) {
                 board[y][start_x] = "O";
             }
         } else {
-            for (int x = start_x; x != stop_x; x += start_x < stop_x ? 1 : -1) {
+            for (int x = start_x; x != stop_x + 1; x += start_x < stop_x ? 1 : -1) {
                 board[start_y][x] = "O";
             }
         }
