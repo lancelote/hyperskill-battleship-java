@@ -274,6 +274,11 @@ public class Main {
         Game game = new Game();
         game.printBoard();
         game.placeShips();
+
+        System.out.println("The game starts!");
+        System.out.println();
+
+        game.printBoard();
         game.fire();
     }
 }
