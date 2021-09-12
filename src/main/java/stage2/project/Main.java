@@ -36,9 +36,9 @@ class Coordinate {
     final int x;
     final int y;
 
-    Coordinate(String position) throws WrongLocationException {
-        int x = position.endsWith("10") ? 9 : position.charAt(1) - 49;
-        int y = position.charAt(0) - 65;
+    Coordinate(String input) throws WrongLocationException {
+        int x = input.endsWith("10") ? 9 : input.charAt(1) - 49;
+        int y = input.charAt(0) - 65;
 
         if (x > 9 || y < 0 || y > 9) {
             throw new WrongLocationException();
@@ -46,6 +46,12 @@ class Coordinate {
 
         this.x = x;
         this.y = y;
+    }
+
+    static Coordinate readCoordinate() throws WrongLocationException {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.next();
+        return new Coordinate(input);
     }
 }
 
@@ -64,6 +70,13 @@ class Position {
             this.start = secondCoordinate;
             this.stop = firstCoordinate;
         }
+    }
+
+    static Position readPosition() throws WrongLocationException {
+        Scanner scanner = new Scanner(System.in);
+        String start = scanner.next();
+        String stop = scanner.next();
+        return new Position(start, stop);
     }
 }
 
@@ -101,13 +114,6 @@ class Game {
             System.out.println();
         }
         System.out.println();
-    }
-
-    Position readPosition() throws WrongLocationException {
-        Scanner scanner = new Scanner(System.in);
-        String start = scanner.next();
-        String stop = scanner.next();
-        return new Position(start, stop);
     }
 
     private boolean isValidSize(Position position, int size) {
@@ -170,7 +176,7 @@ class Game {
     }
 
     void placeShip(int size) throws WrongLocationException, TooCloseException, WrongLengthException {
-        Position position = readPosition();
+        Position position = Position.readPosition();
 
         if (!isValidSize(position, size)) {
             throw new WrongLengthException();
@@ -230,15 +236,35 @@ class Game {
         }
     }
 
-    public void fire() {
+    void fire() {
+        Coordinate coordinate;
         System.out.println("Take a shot!");
         System.out.println();
         System.out.print("> ");
 
+        while (true) {
+            try {
+                coordinate = Coordinate.readCoordinate();
+                break;
+            } catch (WrongLocationException e) {
+                System.out.println();
+                System.out.println("Error! You entered the wrong coordinates! Try again:");
+                System.out.println();
+                System.out.print("> ");
+            }
+        }
 
+        if (board[coordinate.y][coordinate.x].equals("O")) {
+            board[coordinate.y][coordinate.x] = "X";
+            printBoard();
+            System.out.println("You hit a ship!");
+        } else {
+            board[coordinate.y][coordinate.x] = "M";
+            printBoard();
+            System.out.println("You missed!");
+        }
 
         System.out.println();
-        printBoard();
     }
 }
 
