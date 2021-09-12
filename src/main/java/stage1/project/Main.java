@@ -13,8 +13,8 @@ class TooCloseException extends Exception {
 }
 
 class Ship {
-    String name;
-    int size;
+    final String name;
+    final int size;
 
     Ship(String name, int size) {
         this.name = name;
@@ -23,8 +23,8 @@ class Ship {
 }
 
 class Coordinate {
-    int x;
-    int y;
+    final int x;
+    final int y;
 
     Coordinate(int x, int y) {
         this.x = x;
@@ -33,8 +33,8 @@ class Coordinate {
 }
 
 class Position {
-    Coordinate start;
-    Coordinate stop;
+    final Coordinate start;
+    final Coordinate stop;
 
     Position(String start, String stop) throws WrongLocationException {
         this.start = parsePosition(start);
@@ -54,9 +54,9 @@ class Position {
 }
 
 class Game {
-    String[][] board = new String[10][];
-    String[] ROW_KEYS = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-    Ship[] SHIPS = {
+    final String[][] board = new String[10][];
+    final String[] ROW_KEYS = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+    final Ship[] SHIPS = {
             new Ship("Aircraft Carrier", 5),
             new Ship("Battleship", 4),
             new Ship("Submarine", 3),
@@ -107,7 +107,32 @@ class Game {
     }
 
     private boolean areCollisions(Position position, int size) {
-        // ToDo: implement
+        int start_x = position.start.x;
+        int start_y = position.start.y;
+        int stop_x = position.stop.x;
+        int stop_y = position.stop.y;
+
+        assert start_x == stop_x || start_y == stop_y;
+        assert Math.abs(start_x - stop_x) == size || Math.abs(start_y - stop_y) == size;
+
+        if (start_x == stop_x) {
+            for (int i = start_y; i != stop_y; i += start_y < stop_y ? 1 : -1) {
+                if (areNeighbors(start_x, i)) {
+                    return false;
+                }
+            }
+        } else {
+            for (int i = start_x; i != stop_x; i += start_x < stop_x ? 1 : -1) {
+                if (areNeighbors(i, start_y)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private boolean areNeighbors(int x, int y) {
         return false;
     }
 
