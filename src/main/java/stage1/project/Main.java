@@ -52,10 +52,10 @@ class Position {
     }
 
     private Coordinate parsePosition(String position) throws WrongLocationException {
-        int x = Character.getNumericValue(position.charAt(1));
-        int y = Character.getNumericValue(position.charAt(0)) - 65;
+        int x = position.charAt(1) - 49;
+        int y = position.charAt(0) - 65;
 
-        if (x < 0 || x > 9 || y < 0 || y > 9) {
+        if (x > 9 || y < 0 || y > 9) {
             throw new WrongLocationException();
         }
 
