@@ -155,9 +155,11 @@ class Game {
         };
 
         for (Shift shift : shifts) {
-            if (!board[y + shift.y][x + shift.x].equals("~")) {
-                return true;
-            }
+            try {
+                if (!board[y + shift.y][x + shift.x].equals("~")) {
+                    return true;
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) {}
         }
 
         return false;
@@ -205,13 +207,18 @@ class Game {
                     placeShip(ship.size);
                     break;
                 } catch (WrongLengthException e) {
+                    System.out.println();
                     System.out.printf("Error! Wrong length of the %s! Try again:", ship.name);
                     System.out.println();
                 } catch (WrongLocationException e) {
+                    System.out.println();
                     System.out.println("Error! Wrong ship location! Try again:");
                 } catch (TooCloseException e) {
+                    System.out.println();
                     System.out.println("Error! You placed it too close to another one. Try again:");
                 }
+                System.out.println();
+                System.out.print("> ");
             }
 
             System.out.println();
