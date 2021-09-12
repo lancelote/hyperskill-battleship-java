@@ -210,7 +210,6 @@ class Game {
             System.out.printf("Enter the coordinates of the %s (%d cells):", ship.name, ship.size);
             System.out.println();
             System.out.println();
-            System.out.print("> ");
 
             while (true) {
                 try {
@@ -228,7 +227,6 @@ class Game {
                     System.out.println("Error! You placed it too close to another one. Try again:");
                 }
                 System.out.println();
-                System.out.print("> ");
             }
 
             System.out.println();
@@ -240,7 +238,6 @@ class Game {
         Coordinate coordinate;
         System.out.println("Take a shot!");
         System.out.println();
-        System.out.print("> ");
 
         while (true) {
             try {
@@ -250,7 +247,6 @@ class Game {
                 System.out.println();
                 System.out.println("Error! You entered the wrong coordinates! Try again:");
                 System.out.println();
-                System.out.print("> ");
             }
         }
 
