@@ -47,8 +47,16 @@ class Position {
     final Coordinate stop;
 
     Position(String start, String stop) throws WrongLocationException {
-        this.start = parsePosition(start);
-        this.stop = parsePosition(stop);
+        Coordinate firstCoordinate = parsePosition(start);
+        Coordinate secondCoordinate = parsePosition(stop);
+
+        if (firstCoordinate.x < secondCoordinate.x || firstCoordinate.y < secondCoordinate.y) {
+            this.start = firstCoordinate;
+            this.stop = secondCoordinate;
+        } else {
+            this.start = secondCoordinate;
+            this.stop = firstCoordinate;
+        }
     }
 
     private Coordinate parsePosition(String position) throws WrongLocationException {
@@ -108,9 +116,9 @@ class Game {
 
     private boolean isValidSize(Position position, int size) {
         if (position.start.x == position.stop.x) {
-            return size == Math.abs(position.stop.y - position.start.y) + 1;
+            return size == position.stop.y - position.start.y + 1;
         } else if (position.start.y == position.stop.y) {
-            return size == Math.abs(position.stop.x - position.start.x) + 1;
+            return size == position.stop.x - position.start.x + 1;
         } else {
             return false;
         }
@@ -123,16 +131,16 @@ class Game {
         int stop_y = position.stop.y;
 
         assert start_x == stop_x || start_y == stop_y;
-        assert Math.abs(start_x - stop_x) + 1 == size || Math.abs(start_y - stop_y) + 1 == size;
+        assert stop_x - start_x + 1 == size || stop_y - start_y + 1 == size;
 
         if (start_x == stop_x) {
-            for (int y = start_y; y != stop_y + 1; y += start_y < stop_y ? 1 : -1) {
+            for (int y = start_y; y != stop_y + 1; y++) {
                 if (areNeighbors(start_x, y)) {
                     return false;
                 }
             }
         } else {
-            for (int x = start_x; x != stop_x + 1; x += start_x < stop_x ? 1 : -1) {
+            for (int x = start_x; x != stop_x + 1; x++) {
                 if (areNeighbors(x, start_y)) {
                     return false;
                 }
@@ -182,14 +190,14 @@ class Game {
         int stop_y = position.stop.y;
 
         assert start_x == stop_x || start_y == stop_y;
-        assert Math.abs(start_x - stop_x) + 1 == size || Math.abs(start_y - stop_y) + 1 == size;
+        assert stop_x - start_x + 1 == size || stop_y - start_y + 1 == size;
 
         if (start_x == stop_x) {
-            for (int y = start_y; y != stop_y + 1; y += start_y < stop_y ? 1 : -1) {
+            for (int y = start_y; y != stop_y + 1; y++) {
                 board[y][start_x] = "O";
             }
         } else {
-            for (int x = start_x; x != stop_x + 1; x += start_x < stop_x ? 1 : -1) {
+            for (int x = start_x; x != stop_x + 1; x++) {
                 board[start_y][x] = "O";
             }
         }
