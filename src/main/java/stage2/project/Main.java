@@ -250,6 +250,8 @@ class Game {
             }
         }
 
+        System.out.println();
+
         if (board[coordinate.y][coordinate.x].equals("O")) {
             board[coordinate.y][coordinate.x] = "X";
             printBoard();
