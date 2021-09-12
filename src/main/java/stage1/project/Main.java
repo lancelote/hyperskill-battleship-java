@@ -12,6 +12,16 @@ class WrongLocationException extends Exception {
 class TooCloseException extends Exception {
 }
 
+class Shift {
+    final int x;
+    final int y;
+
+    Shift(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
 class Ship {
     final String name;
     final int size;
@@ -133,7 +143,23 @@ class Game {
     }
 
     private boolean areNeighbors(int x, int y) {
-        // ToDo: implement
+        Shift[] shifts = {
+                new Shift(-1, 1),
+                new Shift(0, 1),
+                new Shift(1, 1),
+                new Shift(1, 0),
+                new Shift(1, -1),
+                new Shift(0, -1),
+                new Shift(-1, -1),
+                new Shift(-1, 0)
+        };
+
+        for (Shift shift : shifts) {
+            if (!board[y + shift.y][x + shift.x].equals("~")) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -171,6 +197,8 @@ class Game {
         for (Ship ship : SHIPS) {
             System.out.printf("Enter the coordinates of the %s (%d cells):", ship.name, ship.size);
             System.out.println();
+            System.out.println();
+            System.out.print("> ");
 
             while (true) {
                 try {
