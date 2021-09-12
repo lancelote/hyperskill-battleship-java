@@ -40,7 +40,7 @@ class Coordinate {
         int x = input.endsWith("10") ? 9 : input.charAt(1) - 49;
         int y = input.charAt(0) - 65;
 
-        if (x > 9 || y < 0 || y > 9) {
+        if (x > 9 || y < 0 || y > 9 || (input.length() == 3 && !input.endsWith("10"))) {
             throw new WrongLocationException();
         }
 
