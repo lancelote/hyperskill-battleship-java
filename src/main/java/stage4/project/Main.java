@@ -80,7 +80,7 @@ class Position {
     }
 }
 
-class Game {
+class Player {
     final String[][] board = new String[10][];
     final String[] ROW_KEYS = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
     final Ship[] SHIPS = {
@@ -91,7 +91,7 @@ class Game {
             new Ship("Destroyer", 2)
     };
 
-    Game() {
+    Player() {
         for (int i = 0; i < 10; i++) {
             String[] row = new String[10];
             Arrays.fill(row, "~");
@@ -215,6 +215,8 @@ class Game {
     }
 
     void placeShips() {
+        printBoard();
+
         for (Ship ship : SHIPS) {
             System.out.printf("Enter the coordinates of the %s (%d cells):", ship.name, ship.size);
             System.out.println();
@@ -276,8 +278,35 @@ class Game {
     }
 
     public boolean hasShips() {
-        // ToDo: implement
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (board[i][j].equals("O")) {
+                    return true;
+                }
+            }
+        }
         return false;
+    }
+}
+
+class Game {
+    Player player;
+
+    Game() {
+        player = new Player();
+    }
+
+    void placeShips() {
+        player.placeShips();
+    }
+
+    void play() {
+        System.out.println("The game starts!");
+        System.out.println();
+
+        while (player.hasShips()) {
+            player.fire();
+        }
     }
 }
 
@@ -285,17 +314,7 @@ public class Main {
 
     public static void main(String[] args) {
         Game game = new Game();
-        game.printBoard();
         game.placeShips();
-
-        System.out.println("The game starts!");
-        System.out.println();
-
-        game.printBoard(true);
-
-        while (game.hasShips()) {
-            game.fire();
-        }
-
+        game.play();
     }
 }
