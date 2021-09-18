@@ -278,7 +278,7 @@ class Player {
             } else if (hasShips()) {
                 System.out.println("You sank a ship! Specify a new target:");
             } else {
-                System.out.println("You sank the last ship. You won. Congratulations!");
+                System.out.print("You sank the last ship. You won. Congratulations!");
             }
         } else {
             board[coordinate.y][coordinate.x] = "M";
