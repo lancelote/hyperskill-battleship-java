@@ -128,9 +128,9 @@ class Player {
     }
 
     void printBoards() {
-        printBoard(board);
-        System.out.println("---------------------");
         printBoard(opponent_view);
+        System.out.println("---------------------");
+        printBoard(board);
     }
 
     private boolean isValidSize(Position position, int size) {
