@@ -81,6 +81,7 @@ class Position {
 }
 
 class Player {
+    final String name;
     final String[][] board = new String[10][];
     final String[] ROW_KEYS = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
     final Ship[] SHIPS = {
@@ -91,7 +92,9 @@ class Player {
             new Ship("Destroyer", 2)
     };
 
-    Player() {
+    Player(String name) {
+        this.name = name;
+
         for (int y = 0; y < 10; y++) {
             String[] row = new String[10];
             Arrays.fill(row, "~");
@@ -267,6 +270,9 @@ class Player {
     }
 
     void fire() {
+        System.out.println(name + ", it's your turn:");
+        System.out.println();
+
         Coordinate coordinate = askForCoordinate();
 
         if (!board[coordinate.y][coordinate.x].equals("~")) {
@@ -274,16 +280,16 @@ class Player {
             printBoard(true);
 
             if (shipIsStillAfloat(coordinate)) {
-                System.out.println("You hit a ship! Try again:");
+                System.out.println("You hit a ship!");
             } else if (hasShips()) {
-                System.out.println("You sank a ship! Specify a new target:");
+                System.out.println("You sank a ship!");
             } else {
                 System.out.print("You sank the last ship. You won. Congratulations!");
             }
         } else {
             board[coordinate.y][coordinate.x] = "M";
             printBoard(true);
-            System.out.println("You missed! Try again:");
+            System.out.println("You missed!");
         }
 
         System.out.println();
@@ -306,25 +312,38 @@ class Player {
 }
 
 class Game {
-    Player player;
+    Player player1;
+    Player player2;
 
     Game() {
-        player = new Player();
+        player1 = new Player("Player 1");
+        player2 = new Player("Player 2");
+    }
+
+    void passTurn() {
+        System.out.println("Press Enter and pass the move to another player");
+        System.out.println("...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
     }
 
     void placeShips() {
-        player.placeShips();
+        System.out.println("Player 1, place your ships on the game field");
+        System.out.println();
+        player1.placeShips();
+
+        passTurn();
+
+        System.out.println("Player 2, place your ships on the game field");
+        System.out.println();
+        player2.placeShips();
     }
 
     void play() {
-        System.out.println("The game starts!");
-        System.out.println();
-        player.printBoard(true);
-        System.out.println("Take a shot!");
-        System.out.println();
-
-        while (player.hasShips()) {
-            player.fire();
+        while (player1.hasShips() || player2.hasShips()) {
+            player1.fire();
+            passTurn();
+            player2.fire();
         }
     }
 }
