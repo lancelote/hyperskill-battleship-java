@@ -178,7 +178,7 @@ class Player {
 
         for (Shift shift : shifts) {
             try {
-                if (!board[y + shift.y][x + shift.x].equals("~")) {
+                if (board[y + shift.y][x + shift.x].equals("O")) {
                     return true;
                 }
             } catch (ArrayIndexOutOfBoundsException ignored) {}
