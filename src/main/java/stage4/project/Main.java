@@ -251,9 +251,6 @@ class Player {
     Coordinate askForCoordinate() {
         Coordinate coordinate;
 
-        System.out.println("Take a shot!");
-        System.out.println();
-
         while (true) {
             try {
                 coordinate = Coordinate.readCoordinate();
@@ -323,6 +320,7 @@ class Game {
         System.out.println("The game starts!");
         System.out.println();
         player.printBoard(true);
+        System.out.println("Take a shot!");
         System.out.println();
 
         while (player.hasShips()) {
