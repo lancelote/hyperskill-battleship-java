@@ -92,10 +92,10 @@ class Player {
     };
 
     Player() {
-        for (int i = 0; i < 10; i++) {
+        for (int y = 0; y < 10; y++) {
             String[] row = new String[10];
             Arrays.fill(row, "~");
-            board[i] = row;
+            board[y] = row;
         }
     }
 
@@ -105,15 +105,15 @@ class Player {
 
     void printBoard(Boolean fog) {
         System.out.print(" ");
-        for (int i = 1; i < 11; i++) {
-            System.out.print(" " + i);
+        for (int x = 1; x < 11; x++) {
+            System.out.print(" " + x);
         }
         System.out.println();
 
-        for (int i = 0; i < 10; i++) {
-            System.out.print(ROW_KEYS[i]);
-            for (int j = 0; j < 10; j++) {
-                String cell = board[i][j];
+        for (int y = 0; y < 10; y++) {
+            System.out.print(ROW_KEYS[y]);
+            for (int x = 0; x < 10; x++) {
+                String cell = board[y][x];
                 if (fog && cell.equals("O")) {
                     System.out.print(" ~");
                 } else {
@@ -146,13 +146,13 @@ class Player {
 
         if (start_x == stop_x) {
             for (int y = start_y; y != stop_y + 1; y++) {
-                if (areNeighbors(start_x, y)) {
+                if (hasNeighbors(start_x, y)) {
                     return false;
                 }
             }
         } else {
             for (int x = start_x; x != stop_x + 1; x++) {
-                if (areNeighbors(x, start_y)) {
+                if (hasNeighbors(x, start_y)) {
                     return false;
                 }
             }
@@ -161,7 +161,10 @@ class Player {
         return true;
     }
 
-    private boolean areNeighbors(int x, int y) {
+    /**
+     * Check if there is "O" near the given point.
+     */
+    private boolean hasNeighbors(int x, int y) {
         Shift[] shifts = {
                 new Shift(-1, 1),
                 new Shift(0, 1),
@@ -245,8 +248,9 @@ class Player {
         }
     }
 
-    void fire() {
+    Coordinate askForCoordinate() {
         Coordinate coordinate;
+
         System.out.println("Take a shot!");
         System.out.println();
 
@@ -262,11 +266,23 @@ class Player {
         }
 
         System.out.println();
+        return coordinate;
+    }
+
+    void fire() {
+        Coordinate coordinate = askForCoordinate();
 
         if (board[coordinate.y][coordinate.x].equals("O")) {
             board[coordinate.y][coordinate.x] = "X";
             printBoard(true);
-            System.out.println("You hit a ship!");
+
+            if (shipIsStillAfloat(coordinate)) {
+                System.out.println("You hit a ship! Try again:");
+            } else if (hasShips()) {
+                System.out.println("You sank the last ship. You won. Congratulations!");
+            } else {
+                System.out.println("You sank a ship! Specify a new target:");
+            }
         } else {
             board[coordinate.y][coordinate.x] = "M";
             printBoard(true);
@@ -277,10 +293,14 @@ class Player {
         printBoard();
     }
 
+    private boolean shipIsStillAfloat(Coordinate coordinate) {
+        return hasNeighbors(coordinate.x, coordinate.y);
+    }
+
     public boolean hasShips() {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                if (board[i][j].equals("O")) {
+        for (int y = 0; y < 10; y++) {
+            for (int x = 0; x < 10; x++) {
+                if (board[y][x].equals("O")) {
                     return true;
                 }
             }
