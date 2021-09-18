@@ -349,6 +349,7 @@ class Game {
             fire(player1, player2);
             passTurn();
             fire(player2, player1);
+            passTurn();
         }
     }
 }
