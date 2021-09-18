@@ -286,11 +286,10 @@ class Player {
         } else {
             board[coordinate.y][coordinate.x] = "M";
             printBoard(true);
-            System.out.println("You missed!");
+            System.out.println("You missed! Try again:");
         }
 
         System.out.println();
-        printBoard();
     }
 
     private boolean shipIsStillAfloat(Coordinate coordinate) {
@@ -322,6 +321,8 @@ class Game {
 
     void play() {
         System.out.println("The game starts!");
+        System.out.println();
+        player.printBoard(true);
         System.out.println();
 
         while (player.hasShips()) {
