@@ -269,7 +269,7 @@ class Player {
     void fire() {
         Coordinate coordinate = askForCoordinate();
 
-        if (board[coordinate.y][coordinate.x].equals("O")) {
+        if (!board[coordinate.y][coordinate.x].equals("~")) {
             board[coordinate.y][coordinate.x] = "X";
             printBoard(true);
 
