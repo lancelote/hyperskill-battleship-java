@@ -276,9 +276,9 @@ class Player {
             if (shipIsStillAfloat(coordinate)) {
                 System.out.println("You hit a ship! Try again:");
             } else if (hasShips()) {
-                System.out.println("You sank the last ship. You won. Congratulations!");
-            } else {
                 System.out.println("You sank a ship! Specify a new target:");
+            } else {
+                System.out.println("You sank the last ship. You won. Congratulations!");
             }
         } else {
             board[coordinate.y][coordinate.x] = "M";
