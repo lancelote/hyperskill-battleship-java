@@ -226,6 +226,8 @@ class Player {
     }
 
     void placeShips() {
+        System.out.println(name + ", place your ships on the game field");
+        System.out.println();
         printBoard(board);
 
         for (Ship ship : SHIPS) {
@@ -313,15 +315,11 @@ class Game {
     }
 
     void placeShips() {
-        System.out.println("Player 1, place your ships on the game field");
-        System.out.println();
         player1.placeShips();
-
         passTurn();
 
-        System.out.println("Player 2, place your ships on the game field");
-        System.out.println();
         player2.placeShips();
+        passTurn();
     }
 
     void fire(Player fromPlayer, Player toPlayer) {
